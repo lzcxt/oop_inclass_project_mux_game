@@ -1,6 +1,6 @@
 #include "Declaration.h"
 
-void Event::Flu(Player &player) {
+void Flu::Affect(Player &player) const {
   int randNum = 100 * (double(rand()) / (RAND_MAX + 1ll));
   bool flag = false;
   if (player.GetHealthLevel() < 50) {
