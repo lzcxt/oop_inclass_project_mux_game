@@ -6,7 +6,8 @@ bool StartWith(const string &u, const string &v) {
 }
 void SleepBySecond(double second) {
   int ed = clock() + second * CLOCKS_PER_SEC;
-  while (clock() < ed);
+  while (clock() < ed)
+    ;
 }
 
 #pragma region  // Player
@@ -26,12 +27,16 @@ void Player::AddKnowledgeLevel(int amount) {
   knowledgeLevel += amount * knowledgeLevelCoefficient;
   if (knowledgeLevel < 0) knowledgeLevel = 0;
 }
-void Player::AddCharmLevel(int amount) { charmLevel += amount * charmLevelCoefficient; }
+void Player::AddCharmLevel(int amount) {
+  charmLevel += amount * charmLevelCoefficient;
+}
 void Player::AddHealthLevel(int amount) {
   healthLevel += amount * healthLevelCoefficient;
   if (healthLevel < 0) healthLevel = 0;
 }
-void Player::AddMentalLevel(int amount) { mentalLevel += amount * mentalLevelCoefficient; }
+void Player::AddMentalLevel(int amount) {
+  mentalLevel += amount * mentalLevelCoefficient;
+}
 int Player::GetCharmLevel() { return charmLevel; }
 int Player::GetKnowledgeLevel() { return knowledgeLevel; }
 int Player::GetMentalLevel() { return mentalLevel; }
@@ -50,6 +55,14 @@ bool Player::Study(int studyCost) {
     AddHealthLevel(-1);
     return true;
   }
+}
+void Player::ShowInfo() {
+  printf("========== %s's info ==========\n", name.c_str());
+  printf("%-20s: %d (max: %d)\n", "ActionCount",          actionCount, actionCountMax);
+  printf("%-20s: %d (x%.3lf)\n", "CharmLevel",            charmLevel, charmLevelCoefficient);
+  printf("%-20s: %d (x%.3lf)\n", "HealthLevel",           healthLevel, healthLevelCoefficient);
+  printf("%-20s: %d (x%.3lf)\n", "KnowledgeLevel",        knowledgeLevel, knowledgeLevelCoefficient);
+  printf("%-20s: %d (x%.3lf)\n", "MentalLevel",           mentalLevel, mentalLevelCoefficient);
 }
 #pragma endregion
 

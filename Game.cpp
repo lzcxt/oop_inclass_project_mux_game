@@ -11,6 +11,7 @@ static const string charactorType[charactorTypeNum] = {
     "学霸",
     "交际达人"
   };
+// the order is knowledge, charm, health, mental
 static const int charactorValue[charactorTypeNum][4] = {
     {2, 2, 4, 2}, 
     {4, 2, 2, 2}, 
@@ -35,8 +36,9 @@ static const Grid gridLibrary(
     2, 1, 1, 1, 
     {}
   );
+const int SEED1 = 666;
 int main() {
-  srand(time(0));
+  srand(SEED1);
 #ifdef __WIN32__
   SetConsoleOutputCP(65001);
 #endif
@@ -52,7 +54,8 @@ int main() {
     else if (rand() % 2) g.PushinGrid(gridLibrary);
     else g.PushinGrid(gridHasFlu);
   }
-  Ruler ruler(100, g);
+  g.BuildGraph();
+  Ruler ruler(10, g);  // hold at most 10 rounds on the graph g
   Computer comp1("Computer1-LearningBaka", charactorValue[1]);
   ruler.PushinPlayer(&player);
   ruler.PushinPlayer(&comp1);

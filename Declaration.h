@@ -6,6 +6,8 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <cmath>
+#include <string>
 using namespace std;
 class Player {
  protected:
@@ -51,6 +53,7 @@ class Player {
   bool Study(int studyCost);
   virtual string TellMeYourType();
   virtual void AutoAct();
+  void ShowInfo();
 };
 class Computer : public Player {
  protected:
@@ -61,7 +64,7 @@ class Computer : public Player {
 };
 class Event {
  public:
-  virtual void Affect(Player &player) const = 0;
+  virtual void Affect(Player *player) const = 0;
 };
 class Grid {
  private:
@@ -83,31 +86,35 @@ class Grid {
         healthLevelCoefficient(healthCoe),
         mentalLevelCoefficient(mentalCoe),
         events(evs) {
-    assert(id.size() == 3);
+    assert((int)id.size() == 3);
   }
-  string ShowIdentifier() const;
+  string GetIdentifier() const;
   void ExplainYourself();
-  void Affect(Player &player);
+  void Affect(Player *player);
 };
 class Graph {
  private:
+  vector<int> extraEdge;
   vector<Grid> gridList;
   map<string, Grid> identify2grid;
  public:
+  static constexpr double HAS_BRANCH_PROBILITY = 0.4;
   void PushinGrid(const Grid &grid);
   void DrawGraph(int currentPosition, int printLength = 7);
-  void PrintAnimation(int currentPosition, int step, int printLength = 7);
+  void Affect(int currentPosition, Player *player);
+  void BuildGraph();
+  int GraphSize() const;
 };
 class Flu : public Event {
  public:
-  virtual void Affect(Player &player) const;
+  virtual void Affect(Player *player) const;
 };
 class Ruler {
  private:
   int limit;
   int count;
   Graph graph;
-  vector<Player *> players;
+  vector<pair<Player *, int> > players;
 
  public:
   Ruler(int limit, const Graph &g) : limit(limit), count(0), graph(g) {}
