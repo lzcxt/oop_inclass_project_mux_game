@@ -104,6 +104,7 @@ class Graph {
   void Affect(int currentPosition, Player *player);
   void BuildGraph();
   int GraphSize() const;
+  void InitRound(Player *player, int &position);
 };
 class Flu : public Event {
  public:

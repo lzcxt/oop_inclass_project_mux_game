@@ -81,3 +81,21 @@ int Graph::GraphSize() const { return gridList.size(); }
 void Graph::Affect(int currentPosition, Player *player) {
   gridList[currentPosition].Affect(player);
 }
+void Graph::InitRound(Player *player, int &position) {
+  int n = gridList.size();
+  DrawGraph(position);
+  string direction = "";
+  if (extraEdge[position] != -1) {
+    while (!StartWith("up", direction) && !StartWith("right", direction))
+      direction = GetInfo<string>("Go u[p] or r[ight]?");
+  }
+  int chooseStep = 0, minStep = 1, maxStep = max<int>(1, ceil(log(player->GetHealthLevel() / log(1.5))));
+  while (chooseStep < minStep || chooseStep > maxStep)
+    chooseStep = GetInfo<int>("Choose the number of the steps you'll move between " + to_string(minStep) + " and " + to_string(maxStep));
+  if (StartWith("up", direction)) {
+    position = (extraEdge[position] + chooseStep - 1) % n;
+  } else {
+    position = (position + chooseStep) % n;
+  }
+  DrawGraph(position);
+}

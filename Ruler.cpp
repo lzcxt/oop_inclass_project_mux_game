@@ -15,12 +15,7 @@ void Ruler::HoldOneRound() {
     player->ResetActionCount();
     cout << player->GetName() << "'s turn" << endl;
     if (player->TellMeYourType() == "Player") {
-      graph.DrawGraph(position);
-      int chooseStep = 0, minStep = 1, maxStep = max<int>(1, ceil(log(player->GetHealthLevel() / log(1.5))));
-      while (chooseStep < minStep || chooseStep > maxStep)
-        chooseStep = GetInfo<int>("Choose the number of the steps you'll move between " + to_string(minStep) + " and " + to_string(maxStep));
-      position = (position + chooseStep) % graph.GraphSize();
-      graph.DrawGraph(position);
+      graph.InitRound(player, position);
       for (auto s : HelpMessage) cout << s << endl;
       graph.Affect(position, player);
       while (1) {
@@ -38,6 +33,8 @@ void Ruler::HoldOneRound() {
         } else if (StartWith("end", actionChoice)) {
           puts("");
           break;
+        } else if (actionChoice == "ShowPosition") {  // used for debug
+          cerr << position << endl;
         } else {
           cout << "invalid action" << endl;
         }
