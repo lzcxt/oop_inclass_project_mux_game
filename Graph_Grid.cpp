@@ -90,8 +90,21 @@ void Graph::InitRound(Player *player, int &position) {
       direction = GetInfo<string>("Go u[p] or r[ight]?");
   }
   int chooseStep = 0, minStep = 1, maxStep = max<int>(1, ceil(log(player->GetHealthLevel() / log(1.5))));
+  cout<<"Type to select a random number of the steps you'll move between " + to_string(minStep) + " and " + to_string(maxStep)<<endl;
   while (chooseStep < minStep || chooseStep > maxStep)
-    chooseStep = GetInfo<int>("Choose the number of the steps you'll move between " + to_string(minStep) + " and " + to_string(maxStep));
+    {
+      
+      //chooseStep=GetInfo<int>("Choose the number of the steps you'll move between " + to_string(minStep) + " and " + to_string(maxStep));
+      if(maxStep==minStep)
+      chooseStep=maxStep;
+      else
+      chooseStep=rand()%(maxStep-minStep)+minStep;//生成随机数
+      
+    }
+#ifdef __WIN32__
+  system("pause");
+#endif
+    cout<<"You will go "<<chooseStep<<" steps" << endl;
   if (StartWith("up", direction)) {
     position = (extraEdge[position] + chooseStep - 1) % n;
   } else {

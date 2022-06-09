@@ -37,11 +37,14 @@ void Player::AddHealthLevel(int amount) {
 void Player::AddMentalLevel(int amount) {
   mentalLevel += amount * mentalLevelCoefficient;
 }
-int Player::GetCharmLevel() { return charmLevel; }
-int Player::GetKnowledgeLevel() { return knowledgeLevel; }
-int Player::GetMentalLevel() { return mentalLevel; }
-int Player::GetHealthLevel() { return healthLevel; }
+double Player::GetCharmLevel() { return charmLevel; }
+double Player::GetKnowledgeLevel() { return knowledgeLevel; }
+double Player::GetMentalLevel() { return mentalLevel; }
+
+double Player::GetHealthLevel() { return healthLevel; }
 int Player::GetActionCount() { return actionCount; }
+int Player::GetLoveStage(){return LoveStage;}
+void Player::SetLoveStage(int newStage){LoveStage=newStage;}
 void Player::ResetActionCount() { actionCount = actionCountMax; }
 const string &Player::GetName() { return name; }
 string Player::TellMeYourType() { return "Player"; }
@@ -56,13 +59,24 @@ bool Player::Study(int studyCost) {
     return true;
   }
 }
+bool Player::Excercise(int excerciseCost)
+{
+    if (actionCount < excerciseCost)
+    return false;
+  else {
+    actionCount -= excerciseCost;
+    AddHealthLevel(2);
+    AddMentalLevel(1);
+    return true;
+  }
+}
 void Player::ShowInfo() {
   printf("========== %s's info ==========\n", name.c_str());
   printf("%-20s: %d (max: %d)\n", "ActionCount",          actionCount, actionCountMax);
-  printf("%-20s: %d (x%.3lf)\n", "CharmLevel",            charmLevel, charmLevelCoefficient);
-  printf("%-20s: %d (x%.3lf)\n", "HealthLevel",           healthLevel, healthLevelCoefficient);
-  printf("%-20s: %d (x%.3lf)\n", "KnowledgeLevel",        knowledgeLevel, knowledgeLevelCoefficient);
-  printf("%-20s: %d (x%.3lf)\n", "MentalLevel",           mentalLevel, mentalLevelCoefficient);
+  printf("%-20s: %lf (x%.3lf)\n", "CharmLevel",            charmLevel, charmLevelCoefficient);
+  printf("%-20s: %lf (x%.3lf)\n", "HealthLevel",           healthLevel, healthLevelCoefficient);
+  printf("%-20s: %lf (x%.3lf)\n", "KnowledgeLevel",        knowledgeLevel, knowledgeLevelCoefficient);
+  printf("%-20s: %lf (x%.3lf)\n", "MentalLevel",           mentalLevel, mentalLevelCoefficient);
 }
 #pragma endregion
 

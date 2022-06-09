@@ -15,16 +15,16 @@ class Player {
   int actionCount;
   int actionCountMax;
 
-  int knowledgeLevel;
-  int charmLevel;
-  int healthLevel;
-  int mentalLevel;
+  double knowledgeLevel;
+  double charmLevel;
+  double healthLevel;
+  double mentalLevel;
 
   double knowledgeLevelCoefficient;
   double charmLevelCoefficient;
   double healthLevelCoefficient;
   double mentalLevelCoefficient;
-
+  int LoveStage;
  public:
   Player(const string &name, const int *a)
       : name(name),
@@ -35,6 +35,7 @@ class Player {
         mentalLevel(a[3]),
         knowledgeLevelCoefficient(1),
         charmLevelCoefficient(1),
+        LoveStage(0),
         healthLevelCoefficient(1),
         mentalLevelCoefficient(1) {}
   void ResetActionCount();  // actionCount = actionCountMax;
@@ -45,12 +46,15 @@ class Player {
   void AddHealthLevel(int amount);
   void AddMentalLevel(int amount);
   int GetActionCount();
-  int GetCharmLevel();
-  int GetHealthLevel();
-  int GetKnowledgeLevel();
-  int GetMentalLevel();
+  double GetCharmLevel();
+  double GetHealthLevel();
+  double GetKnowledgeLevel();
+  double GetMentalLevel();
+  int GetLoveStage();
+  void SetLoveStage(int newStage);
   const string &GetName();
   bool Study(int studyCost);
+  bool Excercise(int excerciseCost);
   virtual string TellMeYourType();
   virtual void AutoAct();
   void ShowInfo();
@@ -107,6 +111,18 @@ class Graph {
   void InitRound(Player *player, int &position);
 };
 class Flu : public Event {
+ public:
+  virtual void Affect(Player *player) const;
+};
+class SportsMeeting : public Event {
+ public:
+  virtual void Affect(Player *player) const;
+};
+class FallInLove : public Event {
+ public:
+  virtual void Affect(Player *player) const;
+};
+class RandomEvent : public Event {
  public:
   virtual void Affect(Player *player) const;
 };

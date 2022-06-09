@@ -24,6 +24,15 @@ static const Grid gridNothing(
     {}
   );
 static const Flu flu;
+static const SportsMeeting sportsMeeting;
+static const FallInLove fallInLove;
+static const RandomEvent randomEvent;
+static const Grid gridHasSportsMeeting(
+    "SPM", 
+    "This grid has sports meeting, you have an opportunity to get better if you are healthy enough", 
+    1, 1, 1, 1,
+    {&sportsMeeting}
+  );
 static const Grid gridHasFlu(
     "FLU", 
     "This grid has flu, flu will affect your health point", 
@@ -35,6 +44,18 @@ static const Grid gridLibrary(
     "This grid is library, you can learn better",
     2, 1, 1, 1, 
     {}
+  );
+  static const Grid gridDate(
+    "DAT",
+    "This grid is time to date, you may advance your love process or just fail. You can be more charming but become less concentrated on study",
+    0.5, 2, 1, 1, 
+    {&fallInLove}
+  );
+    static const Grid gridRandom(
+    "RAN",
+    "This grid is random events. You can encounter some events there",
+    1, 1, 1, 1, 
+    {&randomEvent}
   );
 const int SEED1 = 666;
 int main() {
@@ -50,9 +71,13 @@ int main() {
   Player player("YOU", charactorValue[charactorCategory]);
   Graph g;
   for (int i = 0; i < graphSize; ++i) {
-    if (rand() % 3) g.PushinGrid(gridNothing);
-    else if (rand() % 2) g.PushinGrid(gridLibrary);
-    else g.PushinGrid(gridHasFlu);
+    int r=rand()%10;
+    if (r<3) g.PushinGrid(gridNothing);
+    else if (r<4) g.PushinGrid(gridDate);
+    else if(r<6) g.PushinGrid(gridHasSportsMeeting);
+    else if(r<8)g.PushinGrid(gridLibrary);
+    else if(r<9) g.PushinGrid(gridHasFlu);
+    else g.PushinGrid(gridRandom);
   }
   g.BuildGraph();
   Ruler ruler(10, g);  // hold at most 10 rounds on the graph g
